@@ -36,22 +36,6 @@ class OpenGLShow(Scene):
         self.add(axes) 
         curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
         curve.set_stroke(YELLOW, 2)
-        self.play(Create(curve), run_time=50, rate_func=linear)
+        self.play(Create(curve), run_time=time)
         self.interactive_embed()
 
-
-
-# Example usage
-# initial_condition = [1.0, 1.0, 1.0]  # Initial values for x, y, z
-# time_span = [0, 100]  # Time range from 0 to 100
-# t, x, y, z = lorenz_solver(initial_condition, time_span)
-
-# # Plotting the results
-# fig = plt.figure(figsize=(10, 8))
-# ax = fig.add_subplot(111, projection='3d')
-# ax.plot(x, y, z)
-# ax.set_xlabel('X')
-# ax.set_ylabel('Y')
-# ax.set_zlabel('Z')
-# ax.set_title('Lorenz Attractor')
-# plt.show()
