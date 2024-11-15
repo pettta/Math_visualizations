@@ -7,5 +7,6 @@ from manim import *
 
 
 # Equations 
+# x' = Ax  (A has real eigenvalues with the same sign) 
 
 # Visuals 

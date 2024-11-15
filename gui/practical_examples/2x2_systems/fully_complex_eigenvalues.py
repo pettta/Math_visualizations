@@ -7,5 +7,6 @@ from manim import *
 
 
 # Equations 
+# x' = Ax  (A has complex eigenvalues with zero real part)  
 
 # Visuals 
