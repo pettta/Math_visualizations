@@ -1,3 +1,4 @@
 gui/media/*
 gui/practical_examples/__pycache__/*
 .ipynb_checkpoints/*
+gui/practical_examples/chaos/__pycache__/*
