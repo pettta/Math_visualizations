@@ -1,4 +1,6 @@
 gui/media/*
 gui/practical_examples/__pycache__/*
-.ipynb_checkpoints/*
 gui/practical_examples/chaos/__pycache__/*
+gui/practical_examples/nxn_systems/__pycache__/*
+.ipynb_checkpoints/*
+
