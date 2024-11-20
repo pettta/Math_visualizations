@@ -22,6 +22,9 @@ if args.test is not None:
         case 5: 
             print("Running 2x2 systems test with complex eigenvalues (with nonzero real) ")
             command = "manim -pql nxn_systems/2x2_systems.py ComplexEigenValuesNonZeroRealPart --renderer=opengl"
+        case 6: 
+            print("Running 2x2 systems test with complex eigenvalues (with zero real) ")
+            command = "manim -pql nxn_systems/2x2_systems.py ComplexEigenValuesZeroRealPart --renderer=opengl"
         case _:
             print("Test number not recognized.")
             sys.exit(1)

@@ -169,8 +169,32 @@ class ComplexEigenValuesNonZeroRealPart(Scene):
 
 # Equations 
 # x' = Ax  (A has complex eigenvalues with zero real part)  
-
 # Critical Point here is called the center (orbitals) : stable 
 # Visuals 
+
+class ComplexEigenValuesZeroRealPart(Scene):
+    def construct(self):
+        time=5
+        time_span = [0, time] 
+        A = np.array([[1, 2], [-5, -1]])
+        points_container = []
+        for i in range(4): #four quadrants
+            for j in range(5): # five points in each quadrant
+                x_sign = 1 if i % 2 == 0 else -1
+                y_sign = 1 if i < 2 else -1
+                ic = [5.0 * x_sign * (j + 1), 5.0 * y_sign * (j + 1)]
+                points = scipy.integrate.solve_ivp(lambda t, x: A @ x, time_span, ic, dense_output=True).y.T
+                points_container.append(points)
+
+        axes=Axes(x_range=[-100,100], y_range=[-100,100])
+        axes.set_width(20)
+        axes.center()
+        self.add(axes)
+        colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
+        for loc, points in enumerate(points_container):
+            curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
+            curve.set_stroke(colors[loc%4], 2)
+            self.play(Create(curve), run_time=1)
+        self.interactive_embed()
 
 
