@@ -1,6 +1,5 @@
 import numpy as np
 import scipy
-import matplotlib.pyplot as plt
 import scipy.integrate
 from manim.mobject.opengl.opengl_vectorized_mobject import OpenGLVMobject
 from manim import * 
@@ -88,7 +87,7 @@ class RealEigenValuesOppositeSign(Scene):
     def construct(self):
         time=5
         time_span = [0, time] 
-        A = np.array([[3, -2], [2, -2]])
+        A = np.array([[2, -1], [3, -2]])
         points_container = []
         for i in range(4): #four quadrants
             for j in range(5): # five points in each quadrant
@@ -135,6 +134,32 @@ class RealEigenValuesOppositeSign(Scene):
 # for each eigenvalue lambda +- u*i 
 #  u(t) = e^(lambda)t (a cos(ut) - b sin(ut)) 
 #  v(t) = e^(lambda)t (a sin(ut) + b sin(ut)) 
+class ComplexEigenValuesNonZeroRealPart(Scene):
+    def construct(self):
+        time=5
+        time_span = [0, time] 
+        spiral_source = np.array([[3, -2], [4, -1]])# Ex 1 
+        sprial_sink =  np.array([[1, -5], [1, -3]])# Ex 2 
+        A = spiral_source
+        points_container = []
+        for i in range(4): #four quadrants
+            for j in range(5): # five points in each quadrant
+                x_sign = 1 if i % 2 == 0 else -1
+                y_sign = 1 if i < 2 else -1
+                ic = [5.0 * x_sign * (j + 1), 5.0 * y_sign * (j + 1)]
+                points = scipy.integrate.solve_ivp(lambda t, x: A @ x, time_span, ic, dense_output=True).y.T
+                points_container.append(points)
+
+        axes=Axes(x_range=[-100,100], y_range=[-100,100])
+        axes.set_width(20)
+        axes.center()
+        self.add(axes)
+        colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
+        for loc, points in enumerate(points_container):
+            curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
+            curve.set_stroke(colors[loc%4], 2)
+            self.play(Create(curve), run_time=1)
+        self.interactive_embed()
 
 
 # Critical Point here is called the spiral point (and it is either a source (lambda >0) or a sink(lambda <0)): unstable 
