@@ -11,11 +11,14 @@ if args.test is not None:
             print("Running Lorenz transform test.")
             command = "manim -pql chaos/lorenz.py OpenGLShow --renderer=opengl"
         case 2:
-            print("Running 2x2 systems test with real eigenvalues of the same sign ")
+            print("Running 2x2 systems test with real positive eigenvalues of the same sign ")
             command = "manim -pql nxn_systems/2x2_systems.py RealEigenValuesPositiveSameSign --renderer=opengl"
         case 3:
-            print("Running 2x2 systems test with real eigenvalues of the same sign ")
+            print("Running 2x2 systems test with real negative eigenvalues of the same sign ")
             command = "manim -pql nxn_systems/2x2_systems.py RealEigenValuesNegativeSameSign --renderer=opengl"
+        case 4:
+            print("Running 2x2 systems test with real eigenvalues of opposite sign ") 
+            command = "manim -pql nxn_systems/2x2_systems.py RealEigenValuesOppositeSign --renderer=opengl" 
         case _:
             print("Test number not recognized.")
             sys.exit(1)

@@ -8,6 +8,9 @@ from manim import *
 """
 This file contains the following examples of 2x2 systems of ODEs that solve:
 Ax = x' where A is a square matrix, x is a vector, and x' is the vector containing the derivatives of x. 
+TODO parent class that contains the common methods and attributes of 2x2 systems, etc... 
+TODO graphing speedups 
+TODO gui for user to input matrix live and re-render the scene
 """
 def find_eigenpairs(matrix):
     """
@@ -32,11 +35,12 @@ class RealEigenValuesPositiveSameSign(Scene):
         A = np.array([[1, 1], [0, 1]])
         points_container = []
         for i in range(4): #four quadrants
-            x_sign = 1 if i % 2 == 0 else -1
-            y_sign = 1 if i < 2 else -1
-            ic = [5.0 * x_sign, 5.0 * y_sign]
-            points = scipy.integrate.solve_ivp(lambda t, x: A @ x, time_span, ic, dense_output=True).y.T
-            points_container.append(points)
+            for j in range(5): # five points in each quadrant
+                x_sign = 1 if i % 2 == 0 else -1
+                y_sign = 1 if i < 2 else -1
+                ic = [5.0 * x_sign * (j + 1), 5.0 * y_sign * (j + 1)]
+                points = scipy.integrate.solve_ivp(lambda t, x: A @ x, time_span, ic, dense_output=True).y.T
+                points_container.append(points)
 
         axes=Axes(x_range=[-1000,1000], y_range=[-1000,1000])
         axes.set_width(200)
@@ -45,8 +49,8 @@ class RealEigenValuesPositiveSameSign(Scene):
         colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
         for loc, points in enumerate(points_container):
             curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
-            curve.set_stroke(colors[loc], 2)
-            self.play(Create(curve), run_time=time)
+            curve.set_stroke(colors[loc%4], 2)
+            self.play(Create(curve), run_time=1)
         self.interactive_embed()
 
 ### CASE 2: r1 < r2 < 0 (negative real eigenvalues)
@@ -58,11 +62,12 @@ class RealEigenValuesNegativeSameSign(Scene):
         A = np.array([[-1, 1], [0, -1]])
         points_container = []
         for i in range(4): #four quadrants
-            x_sign = 1 if i % 2 == 0 else -1
-            y_sign = 1 if i < 2 else -1
-            ic = [5.0 * x_sign, 5.0 * y_sign]
-            points = scipy.integrate.solve_ivp(lambda t, x: A @ x, time_span, ic, dense_output=True).y.T
-            points_container.append(points)
+            for j in range(5): # five points in each quadrant
+                x_sign = 1 if i % 2 == 0 else -1
+                y_sign = 1 if i < 2 else -1
+                ic = [5.0 * x_sign * (j + 1), 5.0 * y_sign * (j + 1)]
+                points = scipy.integrate.solve_ivp(lambda t, x: A @ x, time_span, ic, dense_output=True).y.T
+                points_container.append(points)
 
         axes=Axes(x_range=[-100,100], y_range=[-100,100])
         axes.set_width(20)
@@ -71,15 +76,38 @@ class RealEigenValuesNegativeSameSign(Scene):
         colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
         for loc, points in enumerate(points_container):
             curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
-            curve.set_stroke(colors[loc], 2)
-            self.play(Create(curve), run_time=time)
+            curve.set_stroke(colors[loc%4], 2)
+            self.play(Create(curve), run_time=1)
         self.interactive_embed()
 
 #======= Real EigenValues with Opposite Sign ========#
 ### Equations: x(t) = c1 xi_1 e^(rt) + c2 xi_2 e^(st)
 # A symmetric and Real or A hermitian and Complex => orthogonal eigenvectors
 # Critical Point here is called the Saddle Pt: unstable 
+class RealEigenValuesOppositeSign(Scene):
+    def construct(self):
+        time=5
+        time_span = [0, time] 
+        A = np.array([[3, -2], [2, -2]])
+        points_container = []
+        for i in range(4): #four quadrants
+            for j in range(5): # five points in each quadrant
+                x_sign = 1 if i % 2 == 0 else -1
+                y_sign = 1 if i < 2 else -1
+                ic = [5.0 * x_sign * (j + 1), 5.0 * y_sign * (j + 1)]
+                points = scipy.integrate.solve_ivp(lambda t, x: A @ x, time_span, ic, dense_output=True).y.T
+                points_container.append(points)
 
+        axes=Axes(x_range=[-100,100], y_range=[-100,100])
+        axes.set_width(20)
+        axes.center()
+        self.add(axes)
+        colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
+        for loc, points in enumerate(points_container):
+            curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
+            curve.set_stroke(colors[loc%4], 2)
+            self.play(Create(curve), run_time=1)
+        self.interactive_embed()
 
 
 ### Visuals
