@@ -11,6 +11,7 @@ TODO parent class that contains the common methods and attributes of 2x2 systems
 TODO graphing speedups 
 TODO gui for user to input matrix live and re-render the scene
 """
+ANIM_TIME = 0.5 
 def find_eigenpairs(matrix):
     """
     Finds the eigenvectors of a matrix 
@@ -47,9 +48,9 @@ class RealEigenValuesPositiveSameSign(Scene):
         self.add(axes)
         colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
         for loc, points in enumerate(points_container):
-            curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
+            curve = OpenGLVMobject().set_points_smoothly(axes.c2p(points))
             curve.set_stroke(colors[loc%4], 2)
-            self.play(Create(curve), run_time=1)
+            self.play(Create(curve), run_time=ANIM_TIME)
         self.interactive_embed()
 
 ### CASE 2: r1 < r2 < 0 (negative real eigenvalues)
@@ -74,9 +75,9 @@ class RealEigenValuesNegativeSameSign(Scene):
         self.add(axes)
         colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
         for loc, points in enumerate(points_container):
-            curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
+            curve = OpenGLVMobject().set_points_smoothly(axes.c2p(points))
             curve.set_stroke(colors[loc%4], 2)
-            self.play(Create(curve), run_time=1)
+            self.play(Create(curve), run_time=ANIM_TIME)
         self.interactive_embed()
 
 #======= Real EigenValues with Opposite Sign ========#
@@ -103,9 +104,9 @@ class RealEigenValuesOppositeSign(Scene):
         self.add(axes)
         colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
         for loc, points in enumerate(points_container):
-            curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
+            curve = OpenGLVMobject().set_points_smoothly(axes.c2p(points))
             curve.set_stroke(colors[loc%4], 2)
-            self.play(Create(curve), run_time=1)
+            self.play(Create(curve), run_time=ANIM_TIME)
         self.interactive_embed()
 
 
@@ -139,8 +140,8 @@ class ComplexEigenValuesNonZeroRealPart(Scene):
         time=5
         time_span = [0, time] 
         spiral_source = np.array([[3, -2], [4, -1]])# Ex 1 
-        sprial_sink =  np.array([[1, -5], [1, -3]])# Ex 2 
-        A = spiral_source
+        spiral_sink =  np.array([[1, -5], [1, -3]])# Ex 2 
+        A = spiral_sink
         points_container = []
         for i in range(4): #four quadrants
             for j in range(5): # five points in each quadrant
@@ -156,9 +157,9 @@ class ComplexEigenValuesNonZeroRealPart(Scene):
         self.add(axes)
         colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
         for loc, points in enumerate(points_container):
-            curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
+            curve = OpenGLVMobject().set_points_smoothly(axes.c2p(points))
             curve.set_stroke(colors[loc%4], 2)
-            self.play(Create(curve), run_time=1)
+            self.play(Create(curve), run_time=ANIM_TIME)
         self.interactive_embed()
 
 
@@ -192,9 +193,9 @@ class ComplexEigenValuesZeroRealPart(Scene):
         self.add(axes)
         colors = {0: RED, 1: BLUE, 2: GREEN, 3: YELLOW}
         for loc, points in enumerate(points_container):
-            curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
+            curve = OpenGLVMobject().set_points_smoothly(axes.c2p(points))
             curve.set_stroke(colors[loc%4], 2)
-            self.play(Create(curve), run_time=1)
+            self.play(Create(curve), run_time=ANIM_TIME)
         self.interactive_embed()
 
 

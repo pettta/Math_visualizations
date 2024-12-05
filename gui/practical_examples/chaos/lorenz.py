@@ -18,15 +18,14 @@ def lorenz_solver(initial_condition, t_span, sigma=10, rho=28, beta=8/3):
         dy_dt = x * (rho - z) - y
         dz_dt = x * y - beta * z
         return [dx_dt, dy_dt, dz_dt]
-
-    return scipy.integrate.solve_ivp(lorenz_system, t_span, initial_condition, dense_output=True).y.T
+    return scipy.integrate.solve_ivp(lorenz_system, t_span, initial_condition,  method="DOP853", dense_output=True).y.T
 
 
 class OpenGLShow(Scene):
     def construct(self):
         ### Render the relevant data points 
-        time = 50 
-        ic = [5.0, 5.0, 5.0] 
+        time = 100
+        ic = [1.1, 2.0, 7.0] 
         t_span = [0, time]
         points = lorenz_solver(ic, t_span)
 
@@ -35,8 +34,8 @@ class OpenGLShow(Scene):
         axes.set_width(10)
         axes.center() 
         self.add(axes) 
-        curve = OpenGLVMobject().set_points_as_corners(axes.c2p(points))
+        curve = OpenGLVMobject().set_points_smoothly(axes.c2p(points))
         curve.set_stroke(YELLOW, 2)
-        self.play(Create(curve), run_time=time)
+        self.play(Create(curve), run_time=time//5, rate_func=linear)
         self.interactive_embed()
 
